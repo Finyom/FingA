@@ -1,0 +1,40 @@
+
+databaseChangeLog:
+  - changeSet:
+      id: 012-add-shop-to-carts
+      author: finga
+      changes:
+
+        # Remove the old restriction: one cart per user
+        - dropUniqueConstraint:
+            tableName: carts
+            constraintName: uk_carts_user
+
+        # Add the shop reference
+        - addColumn:
+            tableName: carts
+            columns:
+              - column:
+                  name: shop_id
+                  type: BIGINT
+
+        # Link each cart to a shop
+        - addForeignKeyConstraint:
+            baseTableName: carts
+            baseColumnNames: shop_id
+            referencedTableName: shops
+            referencedColumnNames: id
+            constraintName: fk_carts_shop
+            onDelete: CASCADE
+
+        # Every cart must belong to a shop
+        - addNotNullConstraint:
+            tableName: carts
+            columnName: shop_id
+            columnDataType: BIGINT
+
+        # One cart per user and shop
+        - addUniqueConstraint:
+            tableName: carts
+            columnNames: user_id, shop_id
+            constraintName: uk_carts_user_shop

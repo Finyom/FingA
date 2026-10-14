@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-change-username-to-email
+      author: ghislain
+
+      changes:
+        # 1. Neue email-Spalte hinzufügen
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  type: varchar(255)
+
+        # 2. Vorhandene User bekommen eine Entwicklungs-E-Mail
+        #    z.B. admin -> admin@example.com
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  valueComputed: "username || '@example.com'"
+
+        # 3. email darf nicht NULL sein
+        - addNotNullConstraint:
+            tableName: users
+            columnName: email
+            columnDataType: varchar(255)
+
+        # 4. email muss eindeutig sein
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: email
+            constraintName: uk_users_email
+
+        # 5. username wird nicht mehr benötigt
+        - dropColumn:
+            tableName: users
+            columnName: username

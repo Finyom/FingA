@@ -1,0 +1,66 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-add-username-to-users
+      author: ghislain
+
+      changes:
+        # Username-Spalte hinzufügen
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  type: varchar(100)
+
+        # Vorhandene Benutzer bekommen zunächst einen Username
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "admin"
+            where: email = 'admin@example.com'
+
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "user"
+            where: email = 'user@example.com'
+
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "Clara"
+            where: email = 'Clara@example.com'
+
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "testuser123"
+            where: email = 'testuser123@example.com'
+
+        - update:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: "logintest"
+            where: email = 'logintest@example.com'
+
+        # Username darf nicht NULL sein
+        - addNotNullConstraint:
+            tableName: users
+            columnName: username
+            columnDataType: varchar(100)
+
+        # Username muss eindeutig sein
+        - addUniqueConstraint:
+            tableName: users
+            columnNames: username
+            constraintName: uk_users_username

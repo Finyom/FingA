@@ -1,0 +1,11 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: 008-unique-product-name-per-shop
+      author: finga
+
+      changes:
+        - sql:
+            sql: >
+              CREATE UNIQUE INDEX ux_products_shop_name_lower
+              ON products (shop_id, LOWER(name));

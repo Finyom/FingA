@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 009-add-shop-photo
+      author: finga
+      changes:
+        - addColumn:
+            tableName: shops
+            columns:
+              - column:
+                  name: photo_path
+                  type: VARCHAR(500)
