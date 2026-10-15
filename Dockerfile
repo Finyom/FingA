@@ -1,19 +1,24 @@
-FROM eclipse-temurin:21-jdk AS build
+
+# Build stage
+FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
-RUN ./mvnw dependency:go-offline
+# Maven-Konfiguration und Quellcode kopieren
+COPY pom.xml .
+COPY src ./src
 
-COPY src/ src/
-RUN ./mvnw clean package -DskipTests
+# Spring-Boot-Anwendung bauen
+RUN mvn -B -DskipTests package
 
+# Runtime stage
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
+# Erstellte JAR-Datei kopieren
 COPY --from=build /app/target/*.jar app.jar
 
+# Port für Render
 EXPOSE 8080
 
-CMD ["sh", "-c", "java -Dserver.port=${PORT:-8080} -jar app.jar"]
+# Anwendung starten
+ENTRYPOINT ["java", "-jar", "app.jar"]
