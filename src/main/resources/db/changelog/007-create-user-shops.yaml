@@ -1,3 +1,4 @@
+
 databaseChangeLog:
 
   - changeSet:
@@ -5,11 +6,8 @@ databaseChangeLog:
       author: ghislain
 
       changes:
+        - sql:
+            sql: ALTER TABLE public.users DROP CONSTRAINT IF EXISTS fk_users_shop
 
-        - dropForeignKeyConstraint:
-            baseTableName: users
-            constraintName: fk_users_shop
-
-        - dropColumn:
-            tableName: users
-            columnName: shop_id
+        - sql:
+            sql: ALTER TABLE public.users DROP COLUMN IF EXISTS shop_id
