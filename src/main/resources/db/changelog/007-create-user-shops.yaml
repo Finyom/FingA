@@ -1,15 +1,13 @@
-databaseChangeLog:
 
+databaseChangeLog:
   - changeSet:
       id: 007-remove-shop-id-from-users
       author: ghislain
-
+      validCheckSum: "9:68adfebe859724682a34e0f1ea1d7913"
       changes:
-
         - dropForeignKeyConstraint:
             baseTableName: users
             constraintName: fk_users_shop
-
         - dropColumn:
             tableName: users
             columnName: shop_id
