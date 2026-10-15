@@ -17,7 +17,9 @@ public class CorsConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-                List.of("http://localhost:4200")
+                List.of("http://localhost:4200",
+                        "https://finga-frontend-finga-frontend.vercel.app",
+                        "https://finga-frontend.vercel.app/")
         );
 
         configuration.setAllowedMethods(
