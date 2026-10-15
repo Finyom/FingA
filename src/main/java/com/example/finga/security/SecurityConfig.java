@@ -78,14 +78,18 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+
                         // Jeder darf sich anmelden und registrieren
                         .requestMatchers("/api/auth/**").permitAll()
 
-                        // Swagger öffentlich
+                        // Swagger und OpenAPI öffentlich zugänglich machen
                         .requestMatchers(
+                                "/swagger-ui.html",
                                 "/swagger-ui/**",
+                                "/v3/api-docs",
                                 "/v3/api-docs/**"
                         ).permitAll()
+
 
                         // Shop- und Produktbilder öffentlich
                         .requestMatchers("/uploads/**").permitAll()
