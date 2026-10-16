@@ -92,7 +92,7 @@ public class SecurityConfig {
 
 
                         // Shop- und Produktbilder öffentlich
-                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/api/uploads/**").permitAll()
 
                         // Warenkorb nur für angemeldete Benutzer
                         .requestMatchers("/api/shops/*/cart/**").authenticated()
