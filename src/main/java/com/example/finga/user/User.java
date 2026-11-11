@@ -25,11 +25,15 @@ public class User {
     @Column(nullable = false, unique = true, length = 255)
     private String email;
 
+    @Column(name = "email_verified", nullable = false)
+    private boolean emailVerified = false;
+
     @Column(nullable = false, length = 255)
     private String password;
 
     @Column(nullable = false, length = 50)
     private String role;
+
 
     @ManyToMany
     @JoinTable(

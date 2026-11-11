@@ -25,3 +25,5 @@ databaseChangeLog:
       file: db/changelog/012-add-shop-to-carts.yaml
   - include:
       file: db/changelog/013-create-product-photos.yaml
+  - include:
+      file: db/changelog/014-add-email-verified.yaml

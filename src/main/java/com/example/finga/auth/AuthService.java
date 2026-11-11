@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -44,13 +46,16 @@ public class AuthService {
 
     public void register(RegisterRequest request) {
 
-        if (userRepository.existsByUsername(request.getUsername())) {
+        String username = request.getUsername().trim();
+        String email = request.getEmail().trim().toLowerCase(Locale.ROOT);
+
+        if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException(
                     "Username is already registered"
             );
         }
 
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(email)) {
             throw new IllegalArgumentException(
                     "Email is already registered"
             );
@@ -58,8 +63,8 @@ public class AuthService {
 
         User user = new User();
 
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
+        user.setUsername(username);
+        user.setEmail(email);
 
         // Never store the plain-text password
         user.setPassword(
@@ -68,6 +73,9 @@ public class AuthService {
 
         // New users are regular users by default
         user.setRole("USER");
+
+        // New users must verify their email address
+        user.setEmailVerified(false);
 
         userRepository.save(user);
     }

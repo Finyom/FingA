@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 014-add-email-verified
+      author: finga
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: email_verified
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
